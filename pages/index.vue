@@ -46,112 +46,7 @@ export default {
       ],
       wordNumber: 4,
       especialChar: '.',
-      wordList: {
-        a: {
-          length: 0,
-          words: []
-        },
-        b: {
-          length: 0,
-          words: []
-        },
-        c: {
-          length: 0,
-          words: []
-        },
-        d: {
-          length: 0,
-          words: []
-        },
-        e: {
-          length: 0,
-          words: []
-        },
-        f: {
-          length: 0,
-          words: []
-        },
-        g: {
-          length: 0,
-          words: []
-        },
-        h: {
-          length: 0,
-          words: []
-        },
-        i: {
-          length: 0,
-          words: []
-        },
-        j: {
-          length: 0,
-          words: []
-        },
-        k: {
-          length: 0,
-          words: []
-        },
-        l: {
-          length: 0,
-          words: []
-        },
-        m: {
-          length: 0,
-          words: []
-        },
-        n: {
-          length: 0,
-          words: []
-        },
-        o: {
-          length: 0,
-          words: []
-        },
-        p: {
-          length: 0,
-          words: []
-        },
-        q: {
-          length: 0,
-          words: []
-        },
-        r: {
-          length: 0,
-          words: []
-        },
-        s: {
-          length: 0,
-          words: []
-        },
-        t: {
-          length: 0,
-          words: []
-        },
-        u: {
-          length: 0,
-          words: []
-        },
-        v: {
-          length: 0,
-          words: []
-        },
-        w: {
-          length: 0,
-          words: []
-        },
-        x: {
-          length: 0,
-          words: []
-        },
-        y: {
-          length: 0,
-          words: []
-        },
-        z: {
-          length: 0,
-          words: []
-        }
-      }
+      wordList: []
     }
   },
   computed: {
@@ -159,11 +54,7 @@ export default {
       return this.generatedPassword.join(this.especialChar).toLowerCase()
     },
     totalWords () {
-      let totalWords = 0
-      Object.keys(this.wordList).forEach((key) => {
-        totalWords = totalWords + this.wordList[key].length
-      })
-      return totalWords || 'muitas'
+      return this.wordList.length || 'muitas'
     }
   },
   created () {
@@ -175,11 +66,8 @@ export default {
   },
   methods: {
     getRandomWord () {
-      const allChars = Object.keys(this.wordList)
-      const randomNumber = this.getRandomInt(allChars.length)
-      const randomChar = allChars[randomNumber]
-      const selectedWordList = this.wordList[randomChar]
-      return selectedWordList.words[this.getRandomInt(selectedWordList.length)]
+      const wordPosition = this.getRandomInt(this.wordList.length)
+      return this.wordList[wordPosition]
     },
     genPassword () {
       const words = []
@@ -189,21 +77,10 @@ export default {
       this.generatedPassword = words
     },
     async createDb () {
-      await Promise.all(
-        Object.keys(this.wordList).map(async (key) => {
-          const words = await this.getWords(key)
-          this.wordList[key].words = words
-          this.wordList[key].length = words.length
-          return key
-        })
-      )
-      const wordListStore = JSON.stringify(this.wordList)
+      const words = await this.$axios.$get('/palavras/palavras.txt')
+      this.wordList = words.split('\n')
+      const wordListStore = JSON.stringify(words.split('\n'))
       window.localStorage.setItem('palavras', wordListStore)
-    },
-    async getWords (initial = 'q') {
-      const palavras = await this.$axios.$get(`/palavras/${initial}_palavras.txt`)
-
-      return palavras.split('\n')
     },
     getRandomInt (max) {
       return Math.floor(Math.random() * Math.floor(max))
@@ -242,7 +119,7 @@ p {
   @apply mb-4 flex flex-wrap
 }
 .option {
-  @apply mb-2 w-1/2
+  @apply mb-2 w-1/2 flex flex-col
 }
 input,
 textarea {
