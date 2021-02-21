@@ -1,9 +1,20 @@
 <template>
-  <div class="container">
-    <header>
+  <div class="container prose">
+    <header class="text-center">
       <h1>Correto Cavalo Bateria Grampo</h1>
       <p>Gerando senhas seguras e fáceis de lembrar</p>
     </header>
+
+    <div>
+      <h2>Sobre</h2>
+      <p>Esse gerador é baseado em uma tira do XKCD: <a href="https://xkcd.com/936/">https://xkcd.com/936/</a></p>
+      <p>
+        A ideia é que usar 4 ou mais palavras aleatórias separadas por um "." (ponto)
+        é mais seguro que uma senha como "Tr0ub4dor&3". Como por exemplo
+        "correto.cavalo.bateria.grampo". Basta você lembrar de um cavalo dizendo que tem um grampo
+        em uma bateria.
+      </p>
+    </div>
 
     <div class="password-input">
       <label for="senha_gerada">Senha:</label>
@@ -29,8 +40,11 @@
 export default {
   data () {
     return {
-      generatedPassword: 'correto.cavalo.bateria.grampo',
+      generatedPassword: [
+        'correto', 'cavalo', 'bateria', 'grampo'
+      ],
       wordNumber: 4,
+      especialChar: '.',
       wordList: {
         a: {
           length: 0,
@@ -139,6 +153,11 @@ export default {
       }
     }
   },
+  computed: {
+    passwordFormated () {
+      return this.generatedPassword.join(this.especialChar).toLowerCase()
+    }
+  },
   created () {
     if (!this.hasLocalStorage()) {
       this.createDb()
@@ -159,7 +178,7 @@ export default {
       for (let index = 0; index < this.wordNumber; index++) {
         words.push(this.getRandomWord())
       }
-      this.generatedPassword = words.join('.').toLowerCase()
+      this.generatedPassword = words
     },
     async createDb () {
       await Promise.all(
@@ -212,10 +231,10 @@ p {
   @apply flex flex-col justify-center flex-grow-0
 }
 .options {
-  @apply mb-4 flex
+  @apply mb-4 flex flex-wrap
 }
 .option {
-  @apply mb-2
+  @apply mb-2 w-1/2
 }
 input,
 textarea {
