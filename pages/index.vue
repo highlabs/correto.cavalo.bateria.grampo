@@ -14,6 +14,7 @@
         "correto.cavalo.bateria.grampo". Basta você lembrar de um cavalo dizendo que tem um grampo
         em uma bateria.
       </p>
+      <p>Esse gerador contém {{ totalWords }} palavras</p>
     </div>
 
     <div class="password-input">
@@ -156,6 +157,13 @@ export default {
   computed: {
     passwordFormated () {
       return this.generatedPassword.join(this.especialChar).toLowerCase()
+    },
+    totalWords () {
+      let totalWords = 0
+      Object.keys(this.wordList).forEach((key) => {
+        totalWords = totalWords + this.wordList[key].length
+      })
+      return totalWords || 'muitas'
     }
   },
   created () {
