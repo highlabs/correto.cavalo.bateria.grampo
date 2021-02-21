@@ -15,15 +15,29 @@
 </template>
 
 <script>
+import Dexie from 'dexie'
+
 export default {
   data () {
     return {
       generatedPassword: 'correto.cavalo.bateria.grampo'
     }
   },
+  created () {
+    this.getWord()
+  },
   methods: {
     genPassword () {
       this.generatedPassword = 'baleia.controle.analise.mercado'
+    },
+    async createDb () {
+      const db = new Dexie('palavras')
+      db.version(1).stores({ palavras: '++id,value,intial' })
+
+      await db.palavras.add({
+        value: 'Aarao',
+        initial: 'a'
+      })
     }
   }
 }
