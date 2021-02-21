@@ -15,29 +15,57 @@
 </template>
 
 <script>
-import Dexie from 'dexie'
-
 export default {
   data () {
     return {
-      generatedPassword: 'correto.cavalo.bateria.grampo'
+      generatedPassword: 'correto.cavalo.bateria.grampo',
+      wordList: {
+        a: [],
+        b: [],
+        c: [],
+        d: [],
+        e: [],
+        f: [],
+        g: [],
+        h: [],
+        i: [],
+        j: [],
+        k: [],
+        l: [],
+        m: [],
+        n: [],
+        o: [],
+        p: [],
+        q: [],
+        r: [],
+        s: [],
+        t: [],
+        u: [],
+        v: [],
+        w: [],
+        x: [],
+        y: [],
+        z: []
+      }
     }
   },
   created () {
-    this.getWord()
+    this.createDb()
   },
   methods: {
     genPassword () {
       this.generatedPassword = 'baleia.controle.analise.mercado'
     },
-    async createDb () {
-      const db = new Dexie('palavras')
-      db.version(1).stores({ palavras: '++id,value,intial' })
-
-      await db.palavras.add({
-        value: 'Aarao',
-        initial: 'a'
+    createDb () {
+      Object.keys(this.wordList).forEach(async (key) => {
+        const words = await this.getWords(key)
+        this.wordList[key] = words
       })
+    },
+    async getWords (initial = 'q') {
+      const palavras = await this.$axios.$get(`/palavras/${initial}_palavras.txt`)
+
+      return palavras.split('\n')
     }
   }
 }
