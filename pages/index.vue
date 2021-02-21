@@ -6,10 +6,16 @@
     </header>
 
     <div class="password-input">
-      <textarea :value="generatedPassword" disabled type="text" class="input" />
+      <label for="senha_gerada">Senha:</label>
+      <textarea id="senha_gerada" :value="passwordFormated" type="text" />
       <div class="options">
-        <div class="option whitespace-nowrap">
-          Quantidade: <input v-model="wordNumber" min="4" type="number">
+        <div class="option">
+          <label for="palavras">Palavras:</label>
+          <input id="palavras" v-model="wordNumber" min="4" type="number">
+        </div>
+        <div class="option">
+          <label for="modificador">Modificador:</label>
+          <input id="modificador" v-model="especialChar" type="text">
         </div>
       </div>
       <button @click="genPassword">
