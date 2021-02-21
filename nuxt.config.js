@@ -47,7 +47,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.PRODUCTION ? 'https://correto-cavalo-bateria-grampo.netlify.app' : 'http://localhost:3000'
+    baseURL: process.env.BASE_URL || 'http://localhost:3000'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
