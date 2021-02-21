@@ -194,7 +194,7 @@ header {
   @apply py-4
 }
 .container {
-  @apply min-h-screen flex flex-col justify-center text-center mx-auto px-2;
+  @apply min-h-screen flex flex-col justify-center mx-auto px-2;
 }
 h1 {
   @apply text-2xl mb-3
@@ -203,19 +203,17 @@ p {
   @apply mb-2
 }
 .password-input {
-  @apply flex-grow flex flex-col justify-center
-}
-.input {
-  @apply rounded-md py-3 px-6 w-full max-w-lg text-center mb-4
-}
-input[type=number] {
-  @apply w-10 text-center mx-2
+  @apply flex flex-col justify-center flex-grow-0
 }
 .options {
-  @apply mb-4
+  @apply mb-4 flex
 }
 .option {
-  @apply flex
+  @apply mb-2
+}
+input,
+textarea {
+  @apply border py-1 px-2 rounded mx-2 flex items-center mb-2
 }
 button {
   @apply rounded-md py-2 px-6 border
