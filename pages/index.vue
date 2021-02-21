@@ -1,78 +1,54 @@
 <template>
   <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        correto_cavalo_bateria_grampo
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+    <header>
+      <h1>Correto Cavalo Bateria Grampo</h1>
+      <p>Gerando senhas seguras e fáceis de lembrar</p>
+    </header>
+
+    <div class="password-input">
+      <input :value="generatedPassword" disabled type="text" class="input">
+      <button @click="genPassword">
+        Gerar senha
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      generatedPassword: 'correto.cavalo.bateria.grampo'
+    }
+  },
+  methods: {
+    genPassword () {
+      this.generatedPassword = 'baleia.controle.analise.mercado'
+    }
+  }
+}
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
+header {
+  @apply py-4
+}
 .container {
-@apply min-h-screen flex justify-center items-center text-center mx-auto;
+  @apply min-h-screen flex flex-col justify-center text-center mx-auto px-2;
 }
-*/
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+h1 {
+  @apply text-2xl mb-3
 }
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+p {
+  @apply mb-2
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.password-input {
+  @apply flex-grow flex flex-col justify-center
 }
-
-.links {
-  padding-top: 15px;
+.input {
+  @apply rounded-md py-3 px-6 w-full max-w-lg text-center mb-4
+}
+button {
+  @apply rounded-md py-2 px-6 border
 }
 </style>
