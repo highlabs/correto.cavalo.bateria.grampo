@@ -134,7 +134,11 @@ export default {
     }
   },
   created () {
-    this.createDb()
+    if (!this.hasLocalStorage()) {
+      this.createDb()
+    } else {
+      this.loadWordsFromStorage()
+    }
   },
   methods: {
     getRandomWord () {
@@ -151,12 +155,17 @@ export default {
       }
       this.generatedPassword = words.join('.').toLowerCase()
     },
-    createDb () {
-      Object.keys(this.wordList).forEach(async (key) => {
-        const words = await this.getWords(key)
-        this.wordList[key].words = words
-        this.wordList[key].length = words.length
-      })
+    async createDb () {
+      await Promise.all(
+        Object.keys(this.wordList).map(async (key) => {
+          const words = await this.getWords(key)
+          this.wordList[key].words = words
+          this.wordList[key].length = words.length
+          return key
+        })
+      )
+      const wordListStore = JSON.stringify(this.wordList)
+      window.localStorage.setItem('palavras', wordListStore)
     },
     async getWords (initial = 'q') {
       const palavras = await this.$axios.$get(`/palavras/${initial}_palavras.txt`)
@@ -165,6 +174,16 @@ export default {
     },
     getRandomInt (max) {
       return Math.floor(Math.random() * Math.floor(max))
+    },
+    hasLocalStorage () {
+      const storage = window.localStorage
+      const wordList = storage.getItem('palavras')
+      return !!wordList
+    },
+    loadWordsFromStorage () {
+      const storage = window.localStorage
+      const wordList = storage.getItem('palavras')
+      this.wordList = JSON.parse(wordList)
     }
   }
 }
