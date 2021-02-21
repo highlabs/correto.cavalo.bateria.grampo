@@ -6,9 +6,11 @@
     </header>
 
     <div class="password-input">
-      <input :value="generatedPassword" disabled type="text" class="input">
-      <div>
-        Quantidade de palavras: <input v-model="wordNumber" min="4" type="number">
+      <textarea :value="generatedPassword" disabled type="text" class="input" />
+      <div class="options">
+        <div class="option whitespace-nowrap">
+          Quantidade: <input v-model="wordNumber" min="4" type="number">
+        </div>
       </div>
       <button @click="genPassword">
         Gerar senha
@@ -147,7 +149,7 @@ export default {
       for (let index = 0; index < this.wordNumber; index++) {
         words.push(this.getRandomWord())
       }
-      this.generatedPassword = words.join('.')
+      this.generatedPassword = words.join('.').toLowerCase()
     },
     createDb () {
       Object.keys(this.wordList).forEach(async (key) => {
@@ -186,6 +188,15 @@ p {
 }
 .input {
   @apply rounded-md py-3 px-6 w-full max-w-lg text-center mb-4
+}
+input[type=number] {
+  @apply w-10 text-center mx-2
+}
+.options {
+  @apply mb-4
+}
+.option {
+  @apply flex
 }
 button {
   @apply rounded-md py-2 px-6 border
