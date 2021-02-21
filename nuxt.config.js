@@ -7,7 +7,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'correto_cavalo_bateria_grampo',
+    title: 'correto.cavalo.bateria.grampo',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -46,7 +46,9 @@ export default {
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: process.env.PRODUCTION ? 'https://correto-cavalo-bateria-grampo.netlify.app' : 'http://localhost:3000'
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
