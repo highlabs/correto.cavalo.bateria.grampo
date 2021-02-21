@@ -7,6 +7,9 @@
 
     <div class="password-input">
       <input :value="generatedPassword" disabled type="text" class="input">
+      <div>
+        Quantidade de palavras: <input v-model="wordNumber" min="4" type="number">
+      </div>
       <button @click="genPassword">
         Gerar senha
       </button>
@@ -19,33 +22,112 @@ export default {
   data () {
     return {
       generatedPassword: 'correto.cavalo.bateria.grampo',
+      wordNumber: 4,
       wordList: {
-        a: [],
-        b: [],
-        c: [],
-        d: [],
-        e: [],
-        f: [],
-        g: [],
-        h: [],
-        i: [],
-        j: [],
-        k: [],
-        l: [],
-        m: [],
-        n: [],
-        o: [],
-        p: [],
-        q: [],
-        r: [],
-        s: [],
-        t: [],
-        u: [],
-        v: [],
-        w: [],
-        x: [],
-        y: [],
-        z: []
+        a: {
+          length: 0,
+          words: []
+        },
+        b: {
+          length: 0,
+          words: []
+        },
+        c: {
+          length: 0,
+          words: []
+        },
+        d: {
+          length: 0,
+          words: []
+        },
+        e: {
+          length: 0,
+          words: []
+        },
+        f: {
+          length: 0,
+          words: []
+        },
+        g: {
+          length: 0,
+          words: []
+        },
+        h: {
+          length: 0,
+          words: []
+        },
+        i: {
+          length: 0,
+          words: []
+        },
+        j: {
+          length: 0,
+          words: []
+        },
+        k: {
+          length: 0,
+          words: []
+        },
+        l: {
+          length: 0,
+          words: []
+        },
+        m: {
+          length: 0,
+          words: []
+        },
+        n: {
+          length: 0,
+          words: []
+        },
+        o: {
+          length: 0,
+          words: []
+        },
+        p: {
+          length: 0,
+          words: []
+        },
+        q: {
+          length: 0,
+          words: []
+        },
+        r: {
+          length: 0,
+          words: []
+        },
+        s: {
+          length: 0,
+          words: []
+        },
+        t: {
+          length: 0,
+          words: []
+        },
+        u: {
+          length: 0,
+          words: []
+        },
+        v: {
+          length: 0,
+          words: []
+        },
+        w: {
+          length: 0,
+          words: []
+        },
+        x: {
+          length: 0,
+          words: []
+        },
+        y: {
+          length: 0,
+          words: []
+        },
+        z: {
+          length: 0,
+          words: []
+        }
       }
     }
   },
@@ -53,19 +135,34 @@ export default {
     this.createDb()
   },
   methods: {
+    getRandomWord () {
+      const allChars = Object.keys(this.wordList)
+      const randomNumber = this.getRandomInt(allChars.length)
+      const randomChar = allChars[randomNumber]
+      const selectedWordList = this.wordList[randomChar]
+      return selectedWordList.words[this.getRandomInt(selectedWordList.length)]
+    },
     genPassword () {
-      this.generatedPassword = 'baleia.controle.analise.mercado'
+      const words = []
+      for (let index = 0; index < this.wordNumber; index++) {
+        words.push(this.getRandomWord())
+      }
+      this.generatedPassword = words.join('.')
     },
     createDb () {
       Object.keys(this.wordList).forEach(async (key) => {
         const words = await this.getWords(key)
-        this.wordList[key] = words
+        this.wordList[key].words = words
+        this.wordList[key].length = words.length
       })
     },
     async getWords (initial = 'q') {
       const palavras = await this.$axios.$get(`/palavras/${initial}_palavras.txt`)
 
       return palavras.split('\n')
+    },
+    getRandomInt (max) {
+      return Math.floor(Math.random() * Math.floor(max))
     }
   }
 }
