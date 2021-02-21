@@ -1,39 +1,54 @@
 <template>
-  <div class="container prose">
-    <header class="text-center">
-      <h1>Correto Cavalo Bateria Grampo</h1>
-      <p>Gerando senhas seguras e fáceis de lembrar</p>
-    </header>
+  <div>
+    <div class="container prose">
+      <header class="text-center">
+        <h1>Correto Cavalo Bateria Grampo</h1>
+        <p>Gerando senhas seguras e fáceis de lembrar</p>
+      </header>
 
-    <div>
-      <h2>Sobre</h2>
-      <p>Esse gerador é baseado em uma tira do XKCD: <a href="https://xkcd.com/936/">https://xkcd.com/936/</a></p>
-      <p>
-        A ideia é que usar 4 ou mais palavras aleatórias separadas por um "." (ponto)
-        é mais seguro que uma senha como "Tr0ub4dor&3". Como por exemplo
-        "correto.cavalo.bateria.grampo". Basta você lembrar de um cavalo dizendo que tem um grampo
-        em uma bateria.
-      </p>
-      <p>Esse gerador contém {{ totalWords }} palavras</p>
-    </div>
-
-    <div class="password-input">
-      <label for="senha_gerada">Senha:</label>
-      <textarea id="senha_gerada" :value="passwordFormated" type="text" />
-      <div class="options">
-        <div class="option">
-          <label for="palavras">Palavras:</label>
-          <input id="palavras" v-model="wordNumber" min="4" type="number">
-        </div>
-        <div class="option">
-          <label for="modificador">Modificador:</label>
-          <input id="modificador" v-model="especialChar" type="text">
-        </div>
+      <div>
+        <h2>Sobre</h2>
+        <p>Esse gerador é baseado em uma tira do XKCD: <a href="https://xkcd.com/936/">https://xkcd.com/936/</a></p>
+        <p>
+          A ideia é que usar 4 ou mais palavras aleatórias separadas por um "." (ponto)
+          é mais seguro que uma senha como "Tr0ub4dor&3". Como por exemplo
+          "correto.cavalo.bateria.grampo". Basta você lembrar de um cavalo dizendo que tem um grampo
+          em uma bateria.
+        </p>
+        <p>Esse gerador contém {{ totalWords }} palavras</p>
       </div>
-      <button @click="genPassword">
-        Gerar senha
-      </button>
+      <div v-if="!wordList.length" class="w-full flex justify-center">
+        <img src="/loader.svg" alt="Carregando..." class="w-12">
+      </div>
+      <div v-else class="password-input">
+        <label for="senha_gerada">Senha:</label>
+        <textarea id="senha_gerada" :value="passwordFormated" type="text" />
+        <div class="options">
+          <div class="option">
+            <label for="palavras">Palavras:</label>
+            <input id="palavras" v-model="wordNumber" min="4" type="number">
+          </div>
+          <div class="option">
+            <label for="modificador">Modificador:</label>
+            <input id="modificador" v-model="especialChar" type="text">
+          </div>
+        </div>
+        <button @click="genPassword">
+          Gerar senha
+        </button>
+      </div>
     </div>
+
+    <footer class="w-full p-4">
+      <ul class="prose">
+        <li>
+          <a href="https://github.com/highlabs/correto.cavalo.bateria.grampo">Código fonte</a>
+        </li>
+        <li>
+          Palavras retiradas do <a href="https://cgit.freedesktop.org/libreoffice/dictionaries/plain/pt_BR/">dicionário pt-BR do LibreOffice</a>
+        </li>
+      </ul>
+    </footer>
   </div>
 </template>
 
@@ -127,5 +142,9 @@ textarea {
 }
 button {
   @apply rounded-md py-2 px-6 border
+}
+
+footer {
+  @apply mt-0 border-t
 }
 </style>
